@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>GreenSphere Calculator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #007bff, #00d2d3);
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        /* height: 100vh; */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+      }
+
+      h1,
+      h2 {
+        font-size: 2.5rem;
+        margin: 20px 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      /* .container {
+        background: #e9e9e9;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #000;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 410px;
+        margin: 10px;
+        transition: all 0.3s ease;
+      } */
+
+      .instructions,
+      .form-container,
+      .result-container {
+        background: #fff;
+        color: #000;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 400px;
+        margin: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .result-container {
+        margin-bottom: 50px;
+      }
+
+      .instructions p,
+      .form-container p {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+      }
+
+      .instructions ul {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      button {
+        background-color: #28a745;
+        padding: 10px;
+        border: none;
+        color: #fff;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      button:hover {
+        background-color: #555;
+        color: #fff;
+      }
+
+      input[type='number'],
+      select {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      input[type='number']:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+      }
+
+      .kata-eror {
+        display: none;
+        color: red;
+        font-size: 0.875rem;
+        margin-top: -8px;
+        margin-bottom: 10px;
+      }
+
+      /* Navbar Styling */
+      /* .navbar-dibawah {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        background: linear-gradient(135deg, #7fffd4 30%, #f39c12 60%);
+        padding: 20px 0;
+        box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .navbar-dibawah a {
+        color: #000;
+        text-decoration: none;
+        font-size: 16px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      .navbar-dibawah a:hover {
+        background-color: #555;
+        color: #fff;
+      } */
+
+      #chart {
+        width: 100%;
+        height: 300px;
+        margin-top: 20px;
+        background-color: #f7f7f7;
+      }
+
+      #comments {
+        font-size: 1.5rem;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 480px) {
+        h1,
+        h2 {
+          font-size: 2rem;
+        }
+
+        .instructions p,
+        .form-container p {
+          font-size: 1rem;
+        }
+
+        .container {
+          margin: 0 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .nav-item {
+            font-size: .8rem;
+        }
+      }
+
+      /* navbar */
+      .nav {
+        display: flex;
+        color: #000;
+        flex-direction: row;
+        width: 100%;
+        max-width: 400px;
+        background-color: #fff;
+        padding: 15px 20px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+      }
+
+      .nav-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: all 0.2s ease-out;
+      }
+
+      .nav-text {
+        font-size: 20px;
+        margin: auto;
+        text-align: center;
+        font-weight: 500;
+        /* display: none; */
+        transition: all 0.3s ease;
+      }
+
+      .nav-item:hover {
+        border-radius: 30px;
+        background: #eee;
+        justify-content: flex-start;
+        color: #5a35b5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>GreenSphere Calculator</h1>
+    <div class="container">
+      <div
+        class="instructions"
+        id="instructions"
+      >
+        <p>Cara Menggunakan:</p>
+        <ul>
+          <li>Masukkan angka pada kolom yang tersedia.</li>
+          <li>Pastikan setiap angka terdiri dari 3 digit.</li>
+          <li>Klik tombol "Submit" untuk mengirimkan data.</li>
+        </ul>
+        <button
+          id="understoodButton"
+          style="margin-top: 20px"
+        >
+          Saya Memahaminya
+        </button>
+      </div>
+
+      <div
+        class="form-container"
+        id="formContainer"
+      >
+        <form id="myForm">
+          <p>Masukkan Data Sampah:</p>
+          <input
+            type="number"
+            id="numberInput1"
+            placeholder="Masukkan angka"
+          />
+          <div
+            class="kata-eror"
+            id="error1"
+          >
+            <span>Harap masukkan 3 digit angka dan tidak boleh 0</span>
+          </div>
+          <label for="usageDropdown1">Pilih penggunaan sampah:</label>
+          <select id="usageDropdown1">
+            <option value="sehari-hari">Sehari-hari</option>
+            <option value="minggu an">Mingguan</option>
+            <option value="bulanan">Bulanan</option>
+          </select>
+
+          <input
+            type="number"
+            id="numberInput2"
+            placeholder="Masukkan angka"
+          />
+          <div
+            class="kata-eror"
+            id="error2"
+          >
+            <span>Harap masukkan 3 digit angka dan tidak boleh 0</span>
+          </div>
+          <label for="usageDropdown2">Pilih penggunaan sampah:</label>
+          <select id="usageDropdown2">
+            <option value="sehari-hari">Sehari-hari</option>
+            <option value="mingguan">Mingguan</option>
+            <option value="bulanan">Bulanan</option>
+          </select>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+
+      <div
+        class="result-container"
+        id="resultContainer"
+      >
+        <h2>Hasil Penggunaan Sampah:</h2>
+        <canvas id="chart"></canvas>
+        <p id="comments"></p>
+      </div>
+      <!-- <div class="navbar-dibawah">
+            <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
+            <a href="#tentang-kami"><i class="fas fa-info-circle"></i> Tentang Kami</a>
+        </div> -->
+    </div>
+    <nav class="nav">
+      <div class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span class="nav-text">Home</span>
+      </div>
+      <div class="nav-item">
+        <i class="fas fa-info-circle"></i>
+        <span class="nav-text">About</span>
+      </div>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      document
+        .getElementById('understoodButton')
+        .addEventListener('click', function () {
+          document.getElementById('instructions').style.display = 'none';
+          document.getElementById('formContainer').style.display = 'block';
+        });
+
+      document
+        .getElementById('myForm')
+        .addEventListener('submit', function (e) {
+          e.preventDefault();
+          let input1 = document.getElementById('numberInput1').value;
+          let input2 = document.getElementById('numberInput2').value;
+
+          let error1 = document.getElementById('error1');
+          let error2 = document.getElementById('error2');
+          error1.style.display = 'none';
+          error2.style.display = 'none';
+
+          let valid = true;
+          if (input1.length !== 3 || input1 === '0') {
+            error1.style.display = 'block';
+            valid = false;
+          }
+          if (input2.length !== 3 || input2 === '0') {
+            error2.style.display = 'block';
+            valid = false;
+          }
+
+          if (valid) {
+            displayResults(input1, input2);
+          }
+        });
+
+      function displayResults(input1, input2) {
+        const resultContainer = document.getElementById('resultContainer');
+        resultContainer.style.display = 'block';
+        const ctx = document.getElementById('chart').getContext('2d');
+
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Input 1', 'Input 2'],
+            datasets: [
+              {
+                label: 'Penggunaan Sampah',
+                data: [input1, input2],
+                backgroundColor: [
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+
+        const comments = [
+          'Mari kita bersama-sama mengurangi penggunaan plastik!',
+          'Setiap tindakan kecil kita dapat memberi dampak besar.',
+        ];
+        document.getElementById('comments').innerText =
+          comments[Math.floor(Math.random() * comments.length)];
+      }
+
+      function limitInputLength(event) {
+        const input = event.target;
+        if (input.value.length > 3) {
+          input.value = input.value.slice(0, 3);
+        }
+      }
+
+      document
+        .getElementById('numberInput1')
+        .addEventListener('input', limitInputLength);
+      document
+        .getElementById('numberInput2')
+        .addEventListener('input', limitInputLength);
+    </script>
+  </body>
+</html>
